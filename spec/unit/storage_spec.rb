@@ -3,6 +3,42 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe AssetSync::Storage do
   include_context "mock Rails without_yml"
 
+  describe '#local_files' do
+    context 'default' do
+      let(:config) { AssetSync::Config.new }
+      let(:storage) { AssetSync::Storage.new(config) }
+
+      it 'returns directories and files inside public/assets' do
+        expect(storage.local_files).to eq([
+          'assets/javascripts',
+          'assets/javascripts/application.js',
+        ])
+      end
+    end
+
+    context 'with include_webpacker_assets = true' do
+      let(:config) do
+        config = AssetSync::Config.new
+        config.include_webpacker_assets = true
+        config
+      end
+
+      let(:storage) { AssetSync::Storage.new(config) }
+
+      module Webpacker
+        class Configuration
+          def self.paths
+            {}
+          end
+        end
+      end
+
+      it 'includes files inside public/packs' do
+        expect(storage.local_files).to include('packs/manifest.json')
+      end
+    end
+  end
+
   describe '#upload_files' do
     before(:each) do
       @local_files = ["local_image2.jpg", "local_image1.jpg", "local_stylesheet1.css", "local_stylesheet2.css"]
