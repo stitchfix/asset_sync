@@ -28,6 +28,7 @@ module AssetSync
           config.google_storage_secret_access_key = ENV['GOOGLE_STORAGE_SECRET_ACCESS_KEY'] if ENV.has_key?('GOOGLE_STORAGE_SECRET_ACCESS_KEY')
 
           config.enabled = (ENV['ASSET_SYNC_ENABLED'] == 'true') if ENV.has_key?('ASSET_SYNC_ENABLED')
+          config.include_webpacker_assets = (ENV['ASSET_SYNC_INCLUDE_WEBPACKER_ASSETS'] == 'true') if ENV.has_key?('ASSET_SYNC_INCLUDE_WEBPACKER_ASSETS')
 
           config.existing_remote_files = ENV['ASSET_SYNC_EXISTING_REMOTE_FILES'] || "keep"
 

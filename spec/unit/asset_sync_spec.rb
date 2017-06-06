@@ -87,6 +87,10 @@ describe AssetSync do
       expect(AssetSync.config.cdn_distribution_id).to be_nil
     end
 
+    it "should default include_webpacker_assets to false" do
+      expect(AssetSync.config.include_webpacker_assets).to be_falsey
+    end
+
     it "should default invalidate to empty array" do
       expect(AssetSync.config.invalidate).to eq([])
     end
