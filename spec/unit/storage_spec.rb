@@ -23,14 +23,12 @@ describe AssetSync::Storage do
         config
       end
 
+      let(:webpacker_config_stub) { Class.new }
       let(:storage) { AssetSync::Storage.new(config) }
 
-      module Webpacker
-        class Configuration
-          def self.paths
-            {}
-          end
-        end
+      before do
+        stub_const('Webpacker::Configuration', webpacker_config_stub)
+        allow(webpacker_config_stub).to receive(:paths).and_return({})
       end
 
       it 'includes files inside public/packs' do
